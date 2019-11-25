@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage[portuguese]{babel}
+\usepackage{hyperref}
 \usepackage{float}
 \usepackage{xcolor}
 \title{Trabalho em Grupo}
@@ -48,5 +49,51 @@ O projeto busca tornar as conexões criptografadas ubíquas para todos os servid
 \subsection{Protocolo ACME}
 O protocolo ACME (Automatic Certificate Management Environment) foi projetado pelo ISRG para seu projeto "Lets Encrypt". É um protocolo de comunicação feito para automatizar interações entre autoridades certificadoras e os servidores web de seus usuários, permitindo o desenvolvimento automatizado de uma infraestrutura de chaves públicas de forma que haja um custo baixo. 
 
-\end{document}
+\section{Experimento 1: Preparar um serviço de servidor Web seguro usando certificados Let's Encrypt}
+\begin{figure}[h]
+\centering
+\includegraphics[width=7.5cm]{imagem2.png}
+\caption{Serviço noip.com}
+\end{figure}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=7.5cm]{imagem3.png}
+\caption{Site no ar, mas ainda sem HTTPS.}
+\end{figure}
+
+\subsection{Preparação}
+Primeiramente, foi criado um domínio usando o serviço \url{noip.com} com o nome de \url{thisisverysafe.hopto.org}. Tal domínio foi ligado a um servidor web Apache instalado via SSH numa máquina virtual obtida pelo Google Cloud Computing, com o sistema operacional Debian 9. Nesse ponto, o site não obtinha uma conexão segura, pois o HTTPS não estava habilitado, mas se encontrava no ar normalmente.
+
+\subsection{Usando Certbot}
+\subsubsection{Sobre o Certbot}
+Certbot é uma ferramente gratuita e open-source usada para habilitar HTTPS em websistes, de forma automática, usando os certificados Let's Encrypt. 
+
+Após a instalação do Certbot e as configurações necessárias para o Apache, foi necessário apenas um comando para conseguir um certificado, habilitando o serviço HTTPS.
+
+A seguir, temos as configurações ao rodar o comando \emph{sudo certbot --apache}.
+\begin{figure}[h]
+\centering
+\includegraphics[width=10.5cm]{imagem4.png}
+\caption{Escolha do site configurado na Apache.}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=10.5cm]{imagem5.png}
+\caption{Escolha de Redirect para HTTPS.}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=10.5cm]{imagem6.png}
+\caption{Certificado aprovado, podendo ser verificado em \url{https://www.ssllabs.com/ssltest/analyze.html?d=thisisverysafe.hopto.org}}
+\end{figure}
+
+Agora, ao entrar em \url{thisisverysafe.hopto.org}, o site possui o "cadeado verde" e uma conexão HTPPS.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=10.5cm]{imagem7.png}
+\caption{Configurações do site, podendo se ver a configuração TLS}
+\end{figure}
+
+\end{document}
